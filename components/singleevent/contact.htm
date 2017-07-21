@@ -1,0 +1,26 @@
+<div class="widget clearfix">
+
+	<h4>Chiedi informazioni</h4>
+	<div id="contact-form-result">
+		<form id="quick-contact-form" name="quick-contact-form" class="quick-contact-form nobottommargin" 
+			data-request="onSendContact"
+			data-request-update="'SingleEvent::success': '#contact-form-result'" 
+		>
+			<div class="form-process"></div>
+			<div class="form-group">
+				<input type="text" class="required sm-form-control input-block-level" name="name" value="" placeholder="Nome" required/>
+			</div>
+			<div class="form-group">
+				<input type="email" class="required sm-form-control email input-block-level" name="email" value="" placeholder="Email" required/>
+			</div>
+			<div class="form-group">
+				<textarea class="required sm-form-control input-block-level short-textarea" name="message" rows="6" cols="30" placeholder="Messaggio" required></textarea>
+			</div>
+			<input type="text" class="hidden" name="contact-form-botcheck" value="" />
+			<div class="form-group">
+				<button type="submit" name="quick-contact-form-submit" class="button button-small button-3d nomargin" 
+				value="submit">Invia</button>
+			</div>
+		</form>
+	</div>
+</div>

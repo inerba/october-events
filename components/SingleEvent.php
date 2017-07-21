@@ -1,5 +1,6 @@
 <?php namespace Inerba\Events\Components;
 
+use Input;
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use Inerba\Events\Models\Event;
@@ -19,19 +20,32 @@ class SingleEvent extends ComponentBase
     public function defineProperties()
     {
         return [
-            'postsPerPage' => [
-                'title'             => 'rainlab.blog::lang.settings.posts_per_page',
-                'type'              => 'string',
-                'validationPattern' => '^[0-9]+$',
-                'validationMessage' => 'rainlab.blog::lang.settings.posts_per_page_validation',
-                'default'           => '10',
+            'mail_to' => [
+                 'title'             => 'Email',
+                 //'description'       => 'The most amount of todo items allowed',
+                 //'default'           => '',
+                 'type'              => 'string',
+                 'group'            => 'Mail',
             ],
-            'postPage' => [
-                'title'       => 'rainlab.blog::lang.settings.posts_post',
-                'description' => 'rainlab.blog::lang.settings.posts_post_description',
-                'type'        => 'dropdown',
-                'default'     => 'blog/post',
-                'group'       => 'Links',
+            'mail_name' => [
+                 'title'             => 'Nome',
+                 //'description'       => 'The most amount of todo items allowed',
+                 //'default'           => '',
+                 'type'              => 'string',
+                 'group'            => 'Mail',
+            ],
+            'subject' => [
+                 'title'             => 'Oggetto',
+                 //'description'       => 'The most amount of todo items allowed',
+                 'default'           => 'Nuovo contatto',
+                 'type'              => 'string',
+                 'group'            => 'Mail',
+            ],
+            'button' => [
+                 'title'             => 'Pulsante',
+                 'default'           => 'Invia',
+                 'type'              => 'string',
+                 'group'            => 'Mail',
             ],
         ];
     }
@@ -88,6 +102,33 @@ class SingleEvent extends ComponentBase
             $this->page['successmsg'] = 'Grazie per la disponibilità!';
         } else {
             $this->page['successmsg'] = 'Ti eri già iscritto in precedenza!';
+        }
+
+    }
+
+    public function onSendContact(){
+
+        $botcheck = Input::get('contact-form-botcheck');
+
+        if(!empty($botcheck)) return false;
+
+        $vars = [
+            'name' => Input::get('name'), 
+            'email' => Input::get('email'), 
+            'message' => Input::get('message')
+        ];
+
+        try {
+            \Mail::send('inerba.events::mail.message', $vars, function($message) use ($vars) {
+
+                $message->to($this->property('mail_to'), $this->property('mail_name'));
+                $message->replyTo($vars['email'], $vars['name']);
+                $message->subject($this->property('subject'));
+            });
+
+            $this->page['successmsg'] = 'Grazie per il contatto, ti risponderemo appena possibile.';
+        } catch (\Exception $e) {
+            $this->page['errormsg'] = 'Si sono verificati degli errori, riprova o contattaci!';
         }
 
     }
