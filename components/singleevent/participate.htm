@@ -1,0 +1,54 @@
+{% set start_date = event.start|localizeddate('none', 'none', 'it_IT', null, "EEEE d MMMM Y")|ucfirst %}
+{% set end_date = event.end|localizeddate('none', 'none', 'it_IT', null, "EEEE d MMMM Y")|ucfirst %}
+{% set expired = event.start | date('mdYHi') < "now" | date('mdYHi') %}
+<div id="participate-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog modal-md">
+		<div class="modal-body">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">{{ event.name }}</h4>
+				</div>
+				<div class="modal-body">
+					<ul class="iconlist">
+
+						{% if event.start | date('mdY') == event.end | date('mdY') %}
+						{# evento nello stesso giorno #}
+							<li><i class="icon-calendar3"></i> <strong>{{ start_date }}</strong></li>
+							<li><i class="icon-time"></i> 
+								Dalle <strong>{{ event.start|date('H:i') }}</strong> alle <strong>{{ event.end|date('H:i') }}</strong>
+							</li>
+						{% else %}
+						{# Evento in giorni diversi #}
+							<li><i class="icon-calendar3"></i>
+								Da <strong>{{ start_date }} alle {{ event.start|date('H:i') }}</strong> <br>
+								a <strong>{{ end_date }} alle {{ event.start|date('H:i') }}</strong>
+							</li>
+						{% endif %}
+
+						<li><i class="icon-map-marker2"></i> <strong>Dove:</strong> {{ event.address.address }}</li>
+					</ul>
+					<p>Comunicaci la tua disponibilità compilando questo form.</p>
+					<form 
+						data-request="onParticipate" 
+						data-request-update="'SingleEvent::success': '#part-result'" 
+						data-request-success="$('#participate-modal').modal('toggle');">
+
+						<div class="form-process"></div>
+						<div class="form-group row">
+							<div class="col-sm-6">
+								<input type="text" class="required sm-form-control input-block-level" id="name" name="name" value="" placeholder="Nome" aria-required="true">
+							</div>
+							<div class="col-sm-6">
+								<input type="email" class="required sm-form-control email input-block-level" id="email" name="email" value="" placeholder="Email" aria-required="true" required>
+							</div>
+						</div>
+						<input type="text" class="hidden" id="botcheck" name="botcheck" value="">
+						<button type="submit" id="participate-btn" name="submit" class="button btn-block button-large button-green button-3d nomargin" value="submit">Parteciperò a questo evento</button>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

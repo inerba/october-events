@@ -1,0 +1,205 @@
+fields:
+    name:
+        label: Titolo
+        oc.commentPosition: ''
+        span: left
+        type: text
+    start:
+        label: 'Data di inizio'
+        oc.commentPosition: ''
+        mode: datetime
+        span: left
+        type: datepicker
+    end:
+        label: 'Data di fine'
+        oc.commentPosition: ''
+        mode: datetime
+        span: auto
+        type: datepicker
+    description:
+        label: Descrizione
+        oc.commentPosition: ''
+        prompt: 'Aggiungi un capitolo'
+        span: full
+        type: repeater
+        form:
+            fields:
+                title:
+                    label: Titolo
+                    oc.commentPosition: ''
+                    span: full
+                    type: text
+                content:
+                    label: Contenuto
+                    size: small
+                    oc.commentPosition: ''
+                    span: full
+                    type: richeditor
+                'embed[url]':
+                    label: 'Contenuto embed'
+                    oc.commentPosition: ''
+                    span: full
+                    type: text
+tabs:
+    fields:
+        'setup[use_cover]':
+            label: 'Usa copertina'
+            span: full
+            default: 1
+            type: switch
+            tab: Copertina
+        'setup[alt_cover]':
+            label: 'Usa copertina sopra la descrizione'
+            span: auto
+            type: switch
+            tab: Copertina
+        cover:
+            label: Copertina
+            oc.commentPosition: ''
+            mode: image
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: full
+            cssClass: img-thumbnail
+            trigger:
+                action: show
+                field: 'setup[use_cover]'
+                condition: checked
+            type: fileupload
+            tab: Copertina
+        'address[address]':
+            label: Address
+            type: addressfinder
+            fieldMap:
+                latitude: lat
+                longitude: lng
+                city: 'address[city]'
+                zip: 'address[zip]'
+                province-long: 'address[province]'
+                state-long: 'address[region]'
+                country-long: 'address[country]'
+            span: storm
+            cssClass: col-sm-8
+            tab: Luogo
+        lat:
+            label: Latitude
+            type: text
+            tab: Luogo
+            span: storm
+            cssClass: 'col-sm-2 col-xs-6'
+        lng:
+            label: Longitude
+            type: text
+            tab: Luogo
+            span: storm
+            cssClass: 'col-sm-2 col-xs-6'
+        'address[city]':
+            label: Città
+            oc.commentPosition: ''
+            span: storm
+            cssClass: 'col-sm-3 col-xs-6'
+            type: text
+            tab: Luogo
+        'address[province]':
+            label: Provincia
+            oc.commentPosition: ''
+            span: storm
+            cssClass: 'col-sm-3 col-xs-6'
+            type: text
+            tab: Luogo
+        'address[region]':
+            label: Regione
+            type: text
+            tab: Luogo
+            span: storm
+            cssClass: 'col-sm-2 col-xs-6'
+        'address[country]':
+            label: Nazione
+            type: text
+            tab: Luogo
+            span: storm
+            cssClass: 'col-sm-2 col-xs-6'
+        'address[zip]':
+            label: Cap
+            oc.commentPosition: ''
+            span: storm
+            cssClass: 'col-sm-2 col-xs-6'
+            type: text
+            tab: Luogo
+        'address[zoom]':
+            label: Zoom
+            oc.commentPosition: ''
+            options:
+                1: '1'
+                2: '2'
+                3: '3'
+                4: '4'
+                5: '5'
+                6: '6'
+                7: '7'
+                8: '8'
+                9: '9'
+                10: '10'
+                11: '11'
+                12: '12'
+                13: '13'
+                14: '14'
+                15: '15'
+                16: '16'
+                17: '17'
+                18: '18'
+                19: '19'
+                20: '20'
+            span: auto
+            default: '13'
+            type: dropdown
+            tab: Luogo
+        'address[type]':
+            label: 'Tipo di mappa'
+            oc.commentPosition: ''
+            options:
+                roadmap: 'Mappa stradale'
+                satellite: 'Mappa satellitare'
+                hybrid: 'Mappa ibrida'
+                terrain: 'Mappa fisica'
+            span: auto
+            type: dropdown
+            tab: Luogo
+        gallery:
+            label: Foto
+            oc.commentPosition: ''
+            mode: image
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: auto
+            type: fileupload
+            tab: Gallery
+        media:
+            label: Video
+            oc.commentPosition: ''
+            prompt: 'Aggiungi un video'
+            span: full
+            type: repeater
+            tab: Video
+            form:
+                fields:
+                    url:
+                        label: 'Indirizzo YouTube o Vimeo'
+                        oc.commentPosition: ''
+                        span: full
+                        type: text
+        attachments:
+            label: 'Carica un file'
+            oc.commentPosition: ''
+            mode: file
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: full
+            type: fileupload
+            tab: Allegati

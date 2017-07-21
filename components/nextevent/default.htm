@@ -1,0 +1,59 @@
+{% if event %}
+{% if event.cover %}
+	{% set bg_slide = event.cover.thumb(1980, false, { mode: 'crop', quality: '80', extension: 'jpg' }) %}
+{% else %}
+	{% set bg_slide = 'assets/img/banner-home.jpg' | theme %}
+{% endif %}
+
+<section id="slider" class="sliders-parallax full-screen dark" style="overflow: hidden; background: url('{{ bg_slide }}') no-repeat center center;background-size: cover;">
+
+	<div class="sliders-parallax-inner" style="height: 100%; background-color: rgba(0,0,0,0.3);">
+
+		<div class="container clearfix vertical-middle" style="z-index: 3;">
+
+			<div class="heading-block title-center nobottomborder">
+				<h1>{{ event.name }}</h1>
+				<i class="icon-time"></i> {{ event.start|localizeddate('none', 'none', 'it_IT', null, "EEEE d MMMM Y")|ucfirst }} dalle {{ event.start|date('H:i') }}<br> 
+				<i class="icon-map-marker2"></i> {{ event.address.address }}
+			</div>
+
+			<div id="countdown-ex1" class="countdown countdown-large coming-soon divcenter bottommargin" style="max-width:700px;"></div>
+
+			<div class="center topmargin-lg">
+
+				<a href="{{ event.url }}" class="button button-3d button-default button-rounded button-xlarge">Scopri di più</a>
+		
+			</div>
+
+		</div>
+
+	</div>
+
+</section>
+
+{% put scripts %}
+<script type="text/javascript">
+	// Countdown
+	(function($) {
+		'use strict';
+		$.countdown.regionalOptions.it = {
+			labels: ['Anni','Mesi','Settimane','Giorni','Ore','Minuti','Secondi'],
+			labels1: ['Anno','Mese','Settimana','Giorno','Ora','Minuto','Secondo'],
+			compactLabels: ['a','m','s','g'],
+			whichLabels: null,
+			digits: ['0','1','2','3','4','5','6','7','8','9'],
+			timeSeparator: ':',
+			isRTL: false
+		};
+		$.countdown.setDefaults($.countdown.regionalOptions.it);
+	})(jQuery);
+
+	jQuery(document).ready( function($){
+		var newDate = new Date({{ event.start|date('Y') }}, {{ event.start|date('m') -1 }}, {{ event.start|date('d') }});
+		$('#countdown-ex1').countdown({until: newDate});
+	});
+</script>
+{% endput %}
+{% else %}
+	nessun evento in programma
+{% endif %}

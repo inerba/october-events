@@ -1,0 +1,23 @@
+columns:
+    id:
+        label: id
+        type: number
+        searchable: false
+        sortable: true
+    event_id:
+        label: Evento
+        type: text
+        searchable: true
+        sortable: true
+        select: name
+        relation: event
+    name:
+        label: Nome
+        type: text
+        searchable: true
+        sortable: true
+    email:
+        label: Email
+        type: text
+        searchable: true
+        sortable: true

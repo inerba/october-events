@@ -1,0 +1,16 @@
+plugin:
+    name: 'inerba.events::lang.plugin.name'
+    description: 'inerba.events::lang.plugin.description'
+    author: 'Francesco Apruzzese'
+    icon: oc-icon-calendar
+    homepage: ''
+navigation:
+    inerba-events:
+        label: Eventi
+        url: inerba/events/events
+        icon: icon-calendar
+        sideMenu:
+            event-participants:
+                label: Partecipanti
+                url: inerba/events/participants
+                icon: icon-users

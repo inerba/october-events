@@ -1,0 +1,99 @@
+fields:
+    name:
+        label: Titolo
+        oc.commentPosition: ''
+        span: left
+        type: text
+    start:
+        label: 'Data di inizio'
+        oc.commentPosition: ''
+        mode: datetime
+        span: left
+        type: datepicker
+    end:
+        label: 'Data di fine'
+        oc.commentPosition: ''
+        mode: datetime
+        span: auto
+        type: datepicker
+    description:
+        label: Descrizione
+        oc.commentPosition: ''
+        prompt: 'Aggiungi un capitolo'
+        span: full
+        type: repeater
+        form:
+            fields:
+                title:
+                    label: Titolo
+                    oc.commentPosition: ''
+                    span: full
+                    type: text
+                content:
+                    label: Contenuto
+                    size: small
+                    oc.commentPosition: ''
+                    span: full
+                    type: richeditor
+tabs:
+    cssClass: row
+    fields:
+        'address[address]':
+            label: Address
+            type: addressfinder
+            fieldMap:
+                latitude: lat
+                longitude: lng
+                city: 'address[city]'
+                zip: 'address[zip]'
+                province-long: 'address[province]'
+                state-long: 'address[region]'
+                country-long: 'address[country]'
+            span: storm
+            cssClass: col-sm-8
+            tab: Luogo
+        lat:
+            label: Latitude
+            type: text
+            tab: Luogo
+            span: storm
+            cssClass: col-sm-2 col-xs-6
+        lng:
+            label: Longitude
+            type: text
+            tab: Luogo
+            span: storm
+            cssClass: col-sm-2 col-xs-6
+        'address[city]':
+            label: Città
+            oc.commentPosition: ''
+            span: storm
+            cssClass: col-sm-3 col-xs-6
+            type: text
+            tab: Luogo
+        'address[province]':
+            label: Provincia
+            oc.commentPosition: ''
+            span: storm
+            cssClass: col-sm-3 col-xs-6
+            type: text
+            tab: Luogo
+        'address[region]':
+            label: Regione
+            type: text
+            tab: Luogo
+            span: storm
+            cssClass: col-sm-2 col-xs-6
+        'address[country]':
+            label: Nazione
+            type: text
+            tab: Luogo
+            span: storm
+            cssClass: col-sm-2 col-xs-6
+        'address[zip]':
+            label: Cap
+            oc.commentPosition: ''
+            span: storm
+            cssClass: col-sm-2 col-xs-6
+            type: text
+            tab: Luogo

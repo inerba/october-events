@@ -1,0 +1,25 @@
+<div id="post-list-footer">
+{% for attachment in attachments %}
+
+	{% set filetype = 'assets/img/filetypes/' ~ attachment.file_name | mime ~ '.png' %}
+	{% set filetitle = attachment.title ? attachment.title : attachment.file_name %}
+
+	<div class="spost clearfix">
+		<div class="entry-image">
+			<a href="{{ attachment.path }}" target="_blank"class="nobg">
+				<img src="{{ filetype | theme }}" alt="{{ filetitle }}">
+			</a>
+		</div>
+		<div class="entry-c">
+			<div class="entry-title">
+				<h4><a href="{{ attachment.path }}" target="_blank">{{ filetitle }}</a></h4>
+			</div>
+			<ul class="entry-meta">
+				<li>{{ attachment.file_size | filesize}}</li>
+			</ul>
+		</div>
+	</div>
+	
+{% endfor %}
+</div>
+

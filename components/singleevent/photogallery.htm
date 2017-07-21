@@ -1,0 +1,20 @@
+<div class="col_full col_last">
+
+	<div class="fancy-title title-center title-dotted-border">
+		<h3>Fotografie</h3>
+	</div>
+
+	<div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-lightbox="gallery" data-margin="20" data-nav="true" data-pagi="true" data-items-xxs="2" data-items-xs="3" data-items-sm="4" data-items-md="5">
+		{% for image in images %}
+		<div class="oc-item">
+			<a href="{{ image.thumb(1280,false, { mode: 'crop', quality: '80', extension: 'jpg' }) }}" data-lightbox="gallery-item">
+				<img src="{{ image.thumb(250,250, { mode: 'crop', quality: '80', extension: 'jpg' }) }}" alt="{{ image.title }}" data-src="{{ image.filename }}">
+			</a>
+		</div>
+		{% endfor %}
+
+	</div>
+
+	<div class="clear"></div>
+
+</div>

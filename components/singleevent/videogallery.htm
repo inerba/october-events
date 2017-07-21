@@ -1,0 +1,35 @@
+<div class="col_full col_last">
+
+	<div class="fancy-title title-center title-dotted-border">
+		<h3>Video</h3>
+	</div>
+
+	<div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="true" data-items-xxs="1" data-items-xs="2" data-items-sm="2" data-items-md="2" data-items-lg="2" data-items-xl="2">
+		{% for video in videos %}
+		{#<div class="oc-item">
+			<a href="{{ video.url }}" data-lightbox="iframe">
+				<img src="{{ video.thumbnail_url }}" alt="{{ image.title }}" data-src="{{ image.filename }}">
+				<div class="overlay"><div class="overlay-wrap"><i class="fa fa-play-circle fa-3x"></i></div></div>
+			</a>
+		</div>#}
+		<div class="oc-item">
+			<div class="ipost clearfix">
+				<div class="entry-image">
+					{{ video.html | raw }}
+				</div>
+				<div class="entry-title">
+					<h3>{{ video.title }}</h3>
+				</div>
+				<ul class="entry-meta clearfix">
+					<li><i class="icon-user"></i> {{ video.author_name }}</li>
+				</ul>
+			</div>
+		</div>
+
+		{% endfor %}
+
+	</div>
+
+	<div class="clear"></div>
+
+</div>

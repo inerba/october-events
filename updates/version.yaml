@@ -1,0 +1,20 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table inerba_events_'
+    - builder_table_create_inerba_events_.php
+1.0.3:
+    - 'Updated table inerba_events_'
+    - builder_table_update_inerba_events_.php
+1.0.4:
+    - 'Updated table inerba_events_'
+    - builder_table_update_inerba_events__2.php
+1.0.5:
+    - 'Updated table inerba_events_'
+    - builder_table_update_inerba_events__3.php
+1.0.6:
+    - 'Created table inerba_events_participants'
+    - builder_table_create_inerba_events_participants.php
+1.0.7:
+    - 'Create blog table'
+    - create_blog_posts_table.php

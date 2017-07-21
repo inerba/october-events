@@ -1,0 +1,10 @@
+name: Events
+form: $/inerba/events/models/event/fields.yaml
+modelClass: Inerba\Events\Models\Event
+defaultRedirect: inerba/events/events
+create:
+    redirect: 'inerba/events/events/update/:id'
+    redirectClose: inerba/events/events
+update:
+    redirect: inerba/events/events
+    redirectClose: inerba/events/events

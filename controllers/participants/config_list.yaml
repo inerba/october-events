@@ -1,0 +1,10 @@
+list: $/inerba/events/models/participant/columns.yaml
+modelClass: Inerba\Events\Models\Participant
+title: Participants
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'

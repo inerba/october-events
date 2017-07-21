@@ -1,0 +1,441 @@
+{% set start_date = event.start|localizeddate('none', 'none', 'it_IT', null, "EEEE d MMMM Y")|ucfirst %}
+{% set end_date = event.end|localizeddate('none', 'none', 'it_IT', null, "EEEE d MMMM Y")|ucfirst %}
+{% set expired = event.start | date('mdYHi') < "now" | date('mdYHi') %}
+
+{% put mainTop %}
+<section id="page-title">
+
+	<div class="container clearfix">
+		<h1>{{ event.name }}</h1>
+		<ol class="breadcrumb">
+			<li><a href="#">Home</a></li>
+			<li><a href="#">Events</a></li>
+			<li class="active">Event Single</li>
+		</ol>
+	</div>
+
+</section>
+{% endput %}
+
+{% put containerTop %}
+	{% if event.cover and event.setup.use_cover == 1 and event.setup.alt_cover == 0 %}
+		<div class="single-event">
+
+			<div class="entry-image parallax header-stick" style="background-image: url('{{ event.cover.thumb(1980, false, { mode: 'auto', quality: '80', extension: 'jpg' }) }}'); height:600px" data-stellar-background-ratio="0.3">
+				<div class="entry-overlay-meta">
+					<h2><a href="#">{{ event.name }}</a></h2>
+					<ul class="iconlist">
+
+						{% if event.start | date('mdY') == event.end | date('mdY') %}
+						{# evento nello stesso giorno #}
+							<li><i class="icon-calendar3"></i> <strong>{{ start_date }}</strong></li>
+							<li><i class="icon-time"></i> 
+								Dalle <strong>{{ event.start|date('H:i') }}</strong> alle <strong>{{ event.end|date('H:i') }}</strong>
+							</li>
+						{% else %}
+						{# Evento in giorni diversi #}
+							<li><i class="icon-calendar3"></i>
+								Da <strong>{{ start_date }} alle {{ event.start|date('H:i') }}</strong> <br>
+								a <strong>{{ end_date }} alle {{ event.start|date('H:i') }}</strong>
+							</li>
+						{% endif %}
+
+						<li><i class="icon-map-marker2"></i> <strong>Dove:</strong> {{ event.address.address }}</li>
+					</ul>
+					{% if not expired %}
+						<div id="part-result">
+							<a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" class="button button-green btn-block text-center">Partecipa</a>
+						</div>
+					{% endif %}
+				</div>
+				{% if not expired %}
+				<div class="entry-overlay">
+					<div id="event-countdown" class="countdown"></div>
+				</div>
+				{% endif %}
+			</div>
+
+		</div>
+	{% else %}
+		<section id="google-map" class="gmap header-stick" style="margin-bottom: 20px;"></section>
+		<div class="clear"></div>
+	{% endif %}
+{% endput %}
+
+<div class="postcontent nobottommargin clearfix">
+	{% if expired %}
+		<div class="style-msg alertmsg">
+			<div class="sb-msg"><i class="icon-warning-sign"></i><strong>Attenzione!</strong> Questo evento è concluso.</div>
+		</div>
+	{% endif %}
+
+	<div class="col_three_fifth">
+
+		{% if event.cover and event.setup.use_cover == 1 and event.setup.alt_cover == 1 %}
+			<div class="bottommargin-sm"><img src="{{ event.cover.thumb(800, false, { mode: 'auto', quality: '80', extension: 'jpg' }) }}"></div>
+		{% endif %}
+
+		{% for chapter in event.description %}
+			
+			{% if chapter.title | length > 1 %}
+				<h3>{{ chapter.title }}</h3>
+			{% elseif not loop.first %}
+				<div class="line clearfix"></div>
+			{% endif %}
+			
+			{{ chapter.content | raw }}
+
+			{% if chapter.embed.html %}
+				<div class="bottommargin-sm">{{ chapter.embed.html | raw }}</div>
+			{% endif %}
+
+		{% endfor %}
+
+	</div>
+
+	<div class="col_two_fifth col_last">
+		{% if event.cover and event.setup.use_cover == 1 and event.setup.alt_cover == 0 %}
+			<h4>Location</h4>
+			<section id="google-map" class="gmap" style="height: 300px;"></section>
+		{% else %}
+			<h4>Info</h4>
+			<div class="well single-event">
+				<ul class="iconlist">
+
+					{% if event.start | date('mdY') == event.end | date('mdY') %}
+					{# evento nello stesso giorno #}
+						<li><i class="icon-calendar3"></i> <strong>{{ start_date }}</strong></li>
+						<li><i class="icon-time"></i> 
+							Dalle <strong>{{ event.start|date('H:i') }}</strong> alle <strong>{{ event.end|date('H:i') }}</strong>
+						</li>
+					{% else %}
+					{# Evento in giorni diversi #}
+						<li><i class="icon-calendar3"></i>
+							Da <strong>{{ start_date }} alle {{ event.start|date('H:i') }}</strong> <br>
+							a <strong>{{ end_date }} alle {{ event.start|date('H:i') }}</strong>
+						</li>
+					{% endif %}
+
+					<li><i class="icon-map-marker2"></i> <strong>Dove:</strong> {{ event.address.address }}</li>
+				</ul>
+				{% if not expired %}
+				<div class="entry-overlay">
+					<div id="event-countdown" class="countdown"></div>
+				</div>
+				{% endif %}
+			</div>
+			{% if not expired %}
+				<div id="part-result">
+					<a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" class="button button-green btn-block text-center">Partecipa</a>
+				</div>
+			{% endif %}
+
+		{% endif %}
+		
+		{# Materiali #}
+		{% if event.attachments.count %}
+			<div class="clear topmargin-sm"></div>
+			<h4>Materiali</h4>
+			{% partial __SELF__ ~ "::attachments" attachments = event.attachments %}
+		{% endif %}
+
+	</div>
+
+	<div class="clear"></div>
+
+	{# FOTOGALLERY #}
+	{% if event.gallery.count %}
+		{% partial __SELF__ ~ "::photogallery" images = event.gallery %}
+	{% endif %}
+
+	{# VIDEOGALLERY #}
+	{% if event.media | length > 0 %}
+		{% partial __SELF__ ~ "::videogallery" videos = event.media %}
+	{% endif %}
+
+</div>
+
+<div class="sidebar nobottommargin col_last clearfix">
+	<div class="sidebar-widgets-wrap">
+
+		<div class="widget quick-contact-widget clearfix">
+
+			<h4>Chiedi informazioni</h4>
+			<div class="quick-contact-form-result"></div>
+			<form id="quick-contact-form" name="quick-contact-form" action="include/quickcontact.php" method="post" class="quick-contact-form nobottommargin">
+				<div class="form-process"></div>
+
+				<input type="text" class="required sm-form-control input-block-level" id="quick-contact-form-name" name="quick-contact-form-name" value="" placeholder="Nome" />
+				<input type="text" class="required sm-form-control email input-block-level" id="quick-contact-form-email" name="quick-contact-form-email" value="" placeholder="Email" />
+				<textarea class="required sm-form-control input-block-level short-textarea" id="quick-contact-form-message" name="quick-contact-form-message" rows="6" cols="30" placeholder="Messaggio"></textarea>
+				<input type="text" class="hidden" id="quick-contact-form-botcheck" name="quick-contact-form-botcheck" value="" />
+				<button type="submit" id="quick-contact-form-submit" name="quick-contact-form-submit" class="button button-small button-3d nomargin" value="submit">Invia</button>
+			</form>
+
+		</div>
+		
+		{# Widgget dei post correlati #}
+		{% if event.posts | length > 0 %}
+			{% partial __SELF__ ~ "::posts" posts = event.posts %}
+		{% endif %}
+
+	</div>
+</div>
+
+{% partial __SELF__ ~ "::participate" event = event %}
+
+{# JS GOOGLE MAP #}
+{% put scripts %}
+	<script type="text/javascript">
+
+	{% if not expired %}
+		// Countdown
+		(function($) {
+			'use strict';
+			$.countdown.regionalOptions.it = {
+				labels: ['Anni','Mesi','Settimane','Giorni','Ore','Minuti','Secondi'],
+				labels1: ['Anno','Mese','Settimana','Giorno','Ora','Minuto','Secondo'],
+				compactLabels: ['a','m','s','g'],
+				whichLabels: null,
+				digits: ['0','1','2','3','4','5','6','7','8','9'],
+				timeSeparator: ':',
+				isRTL: false
+			};
+			$.countdown.setDefaults($.countdown.regionalOptions.it);
+		})(jQuery);
+
+		jQuery(document).ready( function($){
+
+			var eventStartDate = new Date();
+			eventStartDate = new Date({{ event.start|date('Y') }}, {{ event.start|date('m') -1 }}, {{ event.start|date('d') }});
+			$('#event-countdown').countdown({until: eventStartDate});
+
+		});
+	{% endif %}
+
+		$('#google-map').gMap({
+			latitude: {{ event.lat }},
+			longitude: {{ event.lng }},
+			maptype: '{{ event.address.type | upper }}',
+			zoom: {{ event.address.zoom }},
+			markers: [
+				{
+					latitude: {{ event.lat }},
+					longitude: {{ event.lng }},
+				},
+				{
+					address: "{{ event.address.address }}",
+					html: "{{ event.address.address }}",
+					icon: {
+						image: "{{ 'assets/img/map-marker-big.png' | theme }}",
+						iconsize: [80, 96],
+						iconanchor: [40, 96]
+					}
+				}
+			],
+			icon: {
+						image: "{{ 'assets/img/none.png' | theme }}",
+						iconsize: [10, 10],
+						iconanchor: [5, 10]
+					},
+			doubleclickzoom: false,
+			controls: {
+				panControl: true,
+				zoomControl: true,
+				mapTypeControl: true,
+				scaleControl: false,
+				streetViewControl: false,
+				overviewMapControl: false
+			},
+			{% if event.address.type == 'roadmap' %}
+			styles: [
+					    {
+					        "featureType": "water",
+					        "elementType": "geometry.fill",
+					        "stylers": [
+					            {
+					                "color": "#d3d3d3"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "transit",
+					        "stylers": [
+					            {
+					                "color": "#808080"
+					            },
+					            {
+					                "visibility": "off"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "road.highway",
+					        "elementType": "geometry.stroke",
+					        "stylers": [
+					            {
+					                "visibility": "on"
+					            },
+					            {
+					                "color": "#b3b3b3"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "road.highway",
+					        "elementType": "geometry.fill",
+					        "stylers": [
+					            {
+					                "color": "#ffffff"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "road.local",
+					        "elementType": "geometry.fill",
+					        "stylers": [
+					            {
+					                "visibility": "on"
+					            },
+					            {
+					                "color": "#ffffff"
+					            },
+					            {
+					                "weight": 1.8
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "road.local",
+					        "elementType": "geometry.stroke",
+					        "stylers": [
+					            {
+					                "color": "#d7d7d7"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "poi",
+					        "elementType": "geometry.fill",
+					        "stylers": [
+					            {
+					                "visibility": "on"
+					            },
+					            {
+					                "color": "#ebebeb"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "administrative",
+					        "elementType": "geometry",
+					        "stylers": [
+					            {
+					                "color": "#a7a7a7"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "road.arterial",
+					        "elementType": "geometry.fill",
+					        "stylers": [
+					            {
+					                "color": "#ffffff"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "road.arterial",
+					        "elementType": "geometry.fill",
+					        "stylers": [
+					            {
+					                "color": "#ffffff"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "landscape",
+					        "elementType": "geometry.fill",
+					        "stylers": [
+					            {
+					                "visibility": "on"
+					            },
+					            {
+					                "color": "#efefef"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "road",
+					        "elementType": "labels.text.fill",
+					        "stylers": [
+					            {
+					                "color": "#696969"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "administrative",
+					        "elementType": "labels.text.fill",
+					        "stylers": [
+					            {
+					                "visibility": "on"
+					            },
+					            {
+					                "color": "#737373"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "poi",
+					        "elementType": "labels.icon",
+					        "stylers": [
+					            {
+					                "visibility": "off"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "poi",
+					        "elementType": "labels",
+					        "stylers": [
+					            {
+					                "visibility": "off"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "road.arterial",
+					        "elementType": "geometry.stroke",
+					        "stylers": [
+					            {
+					                "color": "#d6d6d6"
+					            }
+					        ]
+					    },
+					    {
+					        "featureType": "road",
+					        "elementType": "labels.icon",
+					        "stylers": [
+					            {
+					                "visibility": "off"
+					            }
+					        ]
+					    },
+					    {},
+					    {
+					        "featureType": "poi",
+					        "elementType": "geometry.fill",
+					        "stylers": [
+					            {
+					                "color": "#dadada"
+					            }
+					        ]
+					    }
+					]
+		{% endif %}
+
+		});
+
+	</script>
+{% endput %}

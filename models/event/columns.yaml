@@ -1,0 +1,14 @@
+columns:
+    id:
+        label: id
+        type: number
+    name:
+        label: name
+        type: text
+    slug:
+        label: slug
+        type: text
+    address:
+        label: Città
+        type: text
+        valueFrom: city

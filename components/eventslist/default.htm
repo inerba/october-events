@@ -1,0 +1,14 @@
+<ul>
+{% for event in events %}
+	{% partial __SELF__ ~ "::item"
+        event = event
+    %}
+{% endfor %}
+</ul>
+<ul>
+{% for event in expired_events %}
+	{% partial __SELF__ ~ "::item"
+        event = event
+    %}
+{% endfor %}
+</ul>

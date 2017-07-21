@@ -1,0 +1,11 @@
+list: $/inerba/events/models/event/columns.yaml
+modelClass: Inerba\Events\Models\Event
+title: Events
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+recordUrl: 'inerba/events/events/update/:id'
