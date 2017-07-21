@@ -1,6 +1,7 @@
 <?php namespace Inerba\Events;
 
 use Event;
+use Inerba\Events\Models\Event as EventModel;
 use System\Classes\PluginBase;
 use System\Classes\PluginManager;
 
@@ -97,6 +98,42 @@ class Plugin extends PluginBase
                 ],
                 'secondary');
             }
+        });
+
+        // Provider di ricerca
+        Event::listen('offline.sitesearch.query', function ($query) {
+
+            // Search your plugin's contents
+            $items = EventModel::where('name', 'like', "%${query}%")
+                                            ->orWhere('description', 'like', "%${query}%")
+                                            ->get();
+
+            // Now build a results array
+            $results = $items->map(function ($item) use ($query) {
+
+                // Prende la pagina dalla configurazione
+                $events_page = \Config::get('inerba.events::events_page');
+
+                // If the query is found in the title, set a relevance of 2
+                $relevance = mb_stripos($item->name, $query) !== false ? 2 : 1;
+
+                return [
+                    'title'     => $item->name,
+                    'text'      => $item->description[0]['content'],
+                    'url'       => $events_page ."/". $item->slug,
+                    'thumb'     => $item->cover, // Instance of System\Models\File
+                    'relevance' => $relevance, // higher relevance results in a higher
+                                               // position in the results listing
+                    // 'meta' => 'data',       // optional, any other information you want
+                                               // to associate with this result
+                    // 'model' => $item,       // optional, pass along the original model
+                ];
+            });
+
+            return [
+                'provider' => 'Event', // The badge to display for this result
+                'results'  => $results,
+            ];
         });
 
     }
