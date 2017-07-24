@@ -11,8 +11,8 @@ class EventsList extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'EventsList Component',
-            'description' => 'No description provided yet...'
+            'name'        => 'Lista eventi',
+            'description' => 'Mostra la lista generale degli eventi'
         ];
     }
 

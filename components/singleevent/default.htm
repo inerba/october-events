@@ -86,7 +86,13 @@
 			{{ chapter.content | raw }}
 
 			{% if chapter.embed.html %}
-				<div class="bottommargin-sm">{{ chapter.embed.html | raw }}</div>
+
+				<div class="bottommargin-sm responsive embed-{{ str_slug(chapter.embed.provider_name) }}" 
+					 style="padding-bottom: {{ (chapter.embed.height / chapter.embed.width) * 100 }}%;"
+				>
+					{{ chapter.embed.html | raw }}
+				</div>
+
 			{% endif %}
 
 		{% endfor %}
@@ -169,6 +175,27 @@
 </div>
 
 {% partial __SELF__ ~ "::participate" event = event %}
+
+{% put styles %}
+<style type="text/css">
+	.responsive {
+	  position: relative;
+	}
+	.responsive iframe {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	}
+	.responsive.embed-speaker-deck {
+	    padding-top: 20px;
+	}
+	.responsive.embed-youtube {
+	    padding-bottom: 0px !important;
+	}
+</style>
+{% endput %}
 
 {# JS GOOGLE MAP #}
 {% put scripts %}

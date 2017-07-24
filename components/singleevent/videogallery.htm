@@ -2,7 +2,9 @@
 
 	<div class="fancy-title title-center title-dotted-border">
 		<h3>Video</h3>
-	</div>
+	</div> 
+
+	{% if videos | length > 1 %}
 
 	<div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="true" data-items-xxs="1" data-items-xs="2" data-items-sm="2" data-items-md="2" data-items-lg="2" data-items-xl="2">
 		{% for video in videos %}
@@ -29,6 +31,17 @@
 		{% endfor %}
 
 	</div>
+
+	{% else %}
+		{% set video = videos|first %}
+		<div class="bottommargin-sm">{{ video.html | raw }}</div>
+		<div class="entry-title">
+			<h3>{{ video.title }}</h3>
+		</div>
+		<ul class="entry-meta clearfix">
+			<li><i class="icon-user"></i> {{ video.author_name }}</li>
+		</ul>
+	{% endif %}
 
 	<div class="clear"></div>
 

@@ -10,7 +10,7 @@ class Plugin extends PluginBase
     /**
      * @var array Plugin dependencies
      */
-    public $require = ['RainLab.Blog'];
+    public $require = ['RainLab.Blog','Inerba.Embedd'];
 
     public function registerComponents()
     {
@@ -33,7 +33,7 @@ class Plugin extends PluginBase
     public function boot()
     {
         \RainLab\Blog\Models\Post::extend(function($model) {
-            $model->belongsTo['event'] = ['Inerba\Events\Models\Event', 'key' => 'event_id', 'otherkey' => 'id'];
+            $model->hasOne['event'] = ['Inerba\Events\Models\Event', 'key' => 'id', 'otherkey' => 'event_id'];
         });
 
         Event::listen('backend.form.extendFields', function ($widget) {

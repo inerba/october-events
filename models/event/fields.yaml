@@ -39,7 +39,7 @@ fields:
                     label: 'Contenuto embed'
                     oc.commentPosition: ''
                     span: full
-                    type: text
+                    type: embedd
 tabs:
     fields:
         'setup[use_cover]':

@@ -2,6 +2,7 @@
 
 use Model;
 use Carbon\Carbon;
+use Inerba\Embedd\Classes\Embedd;
 
 /**
  * Model
@@ -46,10 +47,10 @@ class Event extends Model
 
     public function beforeSave()
     {
-        $Essence = new \Essence\Essence();
+        $Embedd = new Embedd();
 
         foreach ($this->media as $media) {
-            $Media = $Essence->extract($media['url']);
+            $Media = $Embedd->retrieve($media['url']);
 
             $embed[] = $Media;
         }
@@ -59,7 +60,7 @@ class Event extends Model
             $e_desc[] = [
                 'title' => $media_desc['title'],
                 'content' => $media_desc['content'],
-                'embed' => $Essence->extract($media_desc['embed']['url']), 
+                'embed' => $Embedd->retrieve($media_desc['embed']['url']), 
             ];
         }
 
