@@ -85,12 +85,12 @@
 			
 			{{ chapter.content | raw }}
 
-			{% if chapter.embed.html %}
+			{% if chapter.embed.code %}
 
-				<div class="bottommargin-sm responsive embed-{{ str_slug(chapter.embed.provider_name) }}" 
-					 style="padding-bottom: {{ (chapter.embed.height / chapter.embed.width) * 100 }}%;"
+				<div class="bottommargin-sm responsive embed-{{ str_slug(chapter.embed.providerName) }}" 
+					 style="padding-bottom: {{ chapter.embed.aspectRatio }}%;"
 				>
-					{{ chapter.embed.html | raw }}
+					{{ chapter.embed.code | raw }}
 				</div>
 
 			{% endif %}

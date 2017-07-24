@@ -17,13 +17,13 @@
 		<div class="oc-item">
 			<div class="ipost clearfix">
 				<div class="entry-image">
-					{{ video.html | raw }}
+					{{ video.code | raw }}
 				</div>
 				<div class="entry-title">
 					<h3>{{ video.title }}</h3>
 				</div>
 				<ul class="entry-meta clearfix">
-					<li><i class="icon-user"></i> {{ video.author_name }}</li>
+					<li><i class="icon-user"></i> <a href="{{ video.authorUrl }}" target="_blank">{{ video.authorName }}</a></li>
 				</ul>
 			</div>
 		</div>
@@ -39,7 +39,7 @@
 			<h3>{{ video.title }}</h3>
 		</div>
 		<ul class="entry-meta clearfix">
-			<li><i class="icon-user"></i> {{ video.author_name }}</li>
+			<li><i class="icon-user"></i> <a href="{{ video.authorUrl }}" target="_blank">{{ video.authorName }}</a></li>
 		</ul>
 	{% endif %}
 

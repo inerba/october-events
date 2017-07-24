@@ -35,7 +35,7 @@ fields:
                     oc.commentPosition: ''
                     span: full
                     type: richeditor
-                'embed[url]':
+                'embed':
                     label: 'Contenuto embed'
                     oc.commentPosition: ''
                     span: full

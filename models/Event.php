@@ -57,10 +57,11 @@ class Event extends Model
         $this->media = isset($embed) ? $embed : null;
 
         foreach ($this->description as $media_desc) {
+
             $e_desc[] = [
                 'title' => $media_desc['title'],
                 'content' => $media_desc['content'],
-                'embed' => $Embedd->retrieve($media_desc['embed']['url']), 
+                'embed' => $Embedd->retrieve($media_desc['embed']), 
             ];
         }
 
