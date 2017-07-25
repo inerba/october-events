@@ -2,6 +2,7 @@
 
 use Event;
 use Inerba\Events\Models\Event as EventModel;
+use RainLab\Blog\Models\Post;
 use System\Classes\PluginBase;
 use System\Classes\PluginManager;
 
@@ -32,12 +33,18 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
-        \RainLab\Blog\Models\Post::extend(function($model) {
-            $model->hasOne['event'] = ['Inerba\Events\Models\Event', 'key' => 'id', 'otherkey' => 'event_id'];
-        });
+        Post::extend(function($model) {
 
+            $model->belongsTo['event'] = ['Inerba\Events\Models\Event'];
+
+            /*$model->bindEvent('model.beforeSave', function() use ($model) {
+                dd($model->toArray());
+            });*/
+
+        });
+        
         Event::listen('backend.form.extendFields', function ($widget) {
-            if( PluginManager::instance()->hasPlugin('RainLab.Blog') && $widget->model instanceof \RainLab\Blog\Models\Post)
+            if( PluginManager::instance()->hasPlugin('RainLab.Blog') && $widget->model instanceof Post)
             {
                 $widget->addFields([
                     'event' => [

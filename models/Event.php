@@ -47,6 +47,7 @@ class Event extends Model
 
     public function beforeSave()
     {
+
         $Embedd = new Embedd();
 
         foreach ($this->media as $media) {

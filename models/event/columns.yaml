@@ -8,7 +8,3 @@ columns:
     slug:
         label: slug
         type: text
-    address:
-        label: Città
-        type: text
-        valueFrom: city
