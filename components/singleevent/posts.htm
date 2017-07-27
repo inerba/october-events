@@ -3,10 +3,14 @@
 	<h4>Notizie correlate</h4>
 	<div id="post-list-footer">
 		{% for post in posts %}
+			{% set target = null %}
+			{% if post.extend.direct_link | length > 1 %}
+				{% set target = 'target="_blank"' %}
+			{% endif %}
 		<div class="spost clearfix">
 			<div class="entry-c">
 				<div class="entry-title">
-					<h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
+					<h4><a href="{{ post.url }}" {{ target }} >{{ post.title }}</a></h4>
 				</div>
 				<ul class="entry-meta">
 					<li>{{ post.published_at|localizeddate('none', 'none', 'it_IT', null, "d MMMM Y")|ucfirst }}</li>

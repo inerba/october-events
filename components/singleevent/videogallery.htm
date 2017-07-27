@@ -34,7 +34,7 @@
 
 	{% else %}
 		{% set video = videos|first %}
-		<div class="bottommargin-sm">{{ video.html | raw }}</div>
+		<div class="bottommargin-sm">{{ video.code | raw }}</div>
 		<div class="entry-title">
 			<h3>{{ video.title }}</h3>
 		</div>

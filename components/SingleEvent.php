@@ -47,6 +47,13 @@ class SingleEvent extends ComponentBase
                  'type'              => 'string',
                  'group'            => 'Mail',
             ],
+            'postPage' => [
+                'title'       => 'rainlab.blog::lang.settings.posts_post',
+                'description' => 'rainlab.blog::lang.settings.posts_post_description',
+                'type'        => 'dropdown',
+                'default'     => 'blog/post',
+                'group'       => 'Links',
+            ],
         ];
     }
 
@@ -61,7 +68,11 @@ class SingleEvent extends ComponentBase
 
         // Aggiunge i link ai post
         $posts = $event->posts->each(function($post) {
-            $post->setUrl( $this->property('postPage'), $this->controller);
+            if(isset($post->extend['direct_link']) && !empty($post->extend['direct_link']) ){
+                $post->url = $post->extend['direct_link'];
+            } else {
+                $post->setUrl( $this->property('postPage'), $this->controller);
+            }
         });
 
         //dd($event->toArray());
@@ -75,7 +86,6 @@ class SingleEvent extends ComponentBase
 
         $this->event = $this->page['event'] = $event;
 
-        //dd($event->toArray());
     }
 
     public function onParticipate()

@@ -70,9 +70,14 @@
 	{% endif %}
 
 	<div class="col_three_fifth">
-
+		
+		{# Copertina sopra la descrizione #}
 		{% if event.cover and event.setup.use_cover == 1 and event.setup.alt_cover == 1 %}
-			<div class="bottommargin-sm"><img src="{{ event.cover.thumb(800, false, { mode: 'auto', quality: '80', extension: 'jpg' }) }}"></div>
+			<div class="bottommargin-sm">
+				<a href="{{ event.cover.path }}" data-lightbox="image">
+					<img src="{{ event.cover.thumb(800, false, { mode: 'auto', quality: '80', extension: 'jpg' }) }}">
+				</a>
+			</div>
 		{% endif %}
 
 		{% for chapter in event.description %}
