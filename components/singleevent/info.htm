@@ -1,0 +1,31 @@
+<div class="entry-overlay-meta">
+	<h2><a href="#">{{ event.name }}</a></h2>
+	<ul class="iconlist">
+
+		{% if event.start | date('mdY') == event.end | date('mdY') %}
+		{# evento nello stesso giorno #}
+			<li><i class="icon-calendar3"></i> <strong>{{ start_date }}</strong></li>
+			<li><i class="icon-time"></i> 
+				Dalle <strong>{{ event.start|date('H:i') }}</strong> alle <strong>{{ event.end|date('H:i') }}</strong>
+			</li>
+		{% else %}
+		{# Evento in giorni diversi #}
+			<li><i class="icon-calendar3"></i>
+				Da <strong>{{ start_date }} alle {{ event.start|date('H:i') }}</strong> <br>
+				a <strong>{{ end_date }} alle {{ event.start|date('H:i') }}</strong>
+			</li>
+		{% endif %}
+
+		<li><i class="icon-map-marker2"></i> <strong>Dove:</strong> {{ event.address.address }}</li>
+	</ul>
+	{% if not expired %}
+		<div id="part-result">
+			<a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" class="button button-green btn-block text-center">Partecipa</a>
+		</div>
+	{% endif %}
+</div>
+{% if not expired %}
+<div class="entry-overlay">
+	<div id="event-countdown" class="countdown"></div>
+</div>
+{% endif %}

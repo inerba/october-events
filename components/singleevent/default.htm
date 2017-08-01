@@ -7,11 +7,6 @@
 
 	<div class="container clearfix">
 		<h1>{{ event.name }}</h1>
-		<ol class="breadcrumb">
-			<li><a href="#">Home</a></li>
-			<li><a href="#">Events</a></li>
-			<li class="active">Event Single</li>
-		</ol>
 	</div>
 
 </section>
@@ -21,38 +16,14 @@
 	{% if event.cover and event.setup.use_cover == 1 and event.setup.alt_cover == 0 %}
 		<div class="single-event">
 
-			<div class="entry-image parallax header-stick" style="background-image: url('{{ event.cover.thumb(1980, false, { mode: 'auto', quality: '80', extension: 'jpg' }) }}'); height:600px" data-stellar-background-ratio="0.3">
-				<div class="entry-overlay-meta">
-					<h2><a href="#">{{ event.name }}</a></h2>
-					<ul class="iconlist">
-
-						{% if event.start | date('mdY') == event.end | date('mdY') %}
-						{# evento nello stesso giorno #}
-							<li><i class="icon-calendar3"></i> <strong>{{ start_date }}</strong></li>
-							<li><i class="icon-time"></i> 
-								Dalle <strong>{{ event.start|date('H:i') }}</strong> alle <strong>{{ event.end|date('H:i') }}</strong>
-							</li>
-						{% else %}
-						{# Evento in giorni diversi #}
-							<li><i class="icon-calendar3"></i>
-								Da <strong>{{ start_date }} alle {{ event.start|date('H:i') }}</strong> <br>
-								a <strong>{{ end_date }} alle {{ event.start|date('H:i') }}</strong>
-							</li>
-						{% endif %}
-
-						<li><i class="icon-map-marker2"></i> <strong>Dove:</strong> {{ event.address.address }}</li>
-					</ul>
-					{% if not expired %}
-						<div id="part-result">
-							<a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" class="button button-green btn-block text-center">Partecipa</a>
-						</div>
-					{% endif %}
+			<div class="hidden-xs">
+				<div class="entry-image parallax header-stick" style="background-image: url('{{ event.cover.thumb(1980, false, { mode: 'auto', quality: '80', extension: 'jpg' }) }}'); height:600px" data-stellar-background-ratio="0.3">
+						{% partial __SELF__ ~ "::info" expired = expired %}
 				</div>
-				{% if not expired %}
-				<div class="entry-overlay">
-					<div id="event-countdown" class="countdown"></div>
-				</div>
-				{% endif %}
+			</div>
+
+			<div class="visible-xs header-stick bottommargin-sm text-center">
+				<img src="{{ event.cover.thumb(800, false, { mode: 'auto', quality: '80', extension: 'jpg' }) }}">
 			</div>
 
 		</div>
@@ -67,15 +38,35 @@
 		<div class="style-msg alertmsg">
 			<div class="sb-msg"><i class="icon-warning-sign"></i><strong>Attenzione!</strong> Questo evento è concluso.</div>
 		</div>
+	{% else %}
+		<div class="visibe-xs well">
+			<ul class="iconlist" style="font-size: 14px;">
+				{% if event.start | date('mdY') == event.end | date('mdY') %}
+				{# evento nello stesso giorno #}
+					<li><i class="icon-calendar3"></i> <strong>{{ start_date }}</strong></li>
+					<li><i class="icon-time"></i> 
+						Dalle <strong>{{ event.start|date('H:i') }}</strong> alle <strong>{{ event.end|date('H:i') }}</strong>
+					</li>
+				{% else %}
+				{# Evento in giorni diversi #}
+					<li><i class="icon-calendar3"></i>
+						Da <strong>{{ start_date }} alle {{ event.start|date('H:i') }}</strong> <br>
+						a <strong>{{ end_date }} alle {{ event.start|date('H:i') }}</strong>
+					</li>
+				{% endif %}
+				<li><i class="icon-map-marker2"></i> <strong>Dove:</strong> {{ event.address.address }}</li>
+			</ul>			
+		</div>
 	{% endif %}
 
 	<div class="col_three_fifth">
 		
 		{# Copertina sopra la descrizione #}
 		{% if event.cover and event.setup.use_cover == 1 and event.setup.alt_cover == 1 %}
-			<div class="bottommargin-sm">
+			<div class="bottommargin-sm clearfix" style="position: relative">
 				<a href="{{ event.cover.path }}" data-lightbox="image">
 					<img src="{{ event.cover.thumb(800, false, { mode: 'auto', quality: '80', extension: 'jpg' }) }}">
+					<div class="overlay"><div class="overlay-wrap"><i class="icon-line-zoom-in"></i></div></div>
 				</a>
 			</div>
 		{% endif %}
@@ -108,10 +99,10 @@
 		{% if event.cover and event.setup.use_cover == 1 and event.setup.alt_cover == 0 %}
 			<h4>Location</h4>
 			<section id="google-map" class="gmap" style="height: 300px;"></section>
+			<a style="margin:0" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr={{ event.lat }},{{ event.lng }}" class="button button-green button-small btn-block text-center">Come arrivare</a>
 		{% else %}
-			<h4>Info</h4>
 			<div class="well single-event">
-				<ul class="iconlist">
+				<ul class="iconlist" style="font-size: 14px;">
 
 					{% if event.start | date('mdY') == event.end | date('mdY') %}
 					{# evento nello stesso giorno #}
@@ -134,6 +125,7 @@
 					<div id="event-countdown" class="countdown"></div>
 				</div>
 				{% endif %}
+				<a style="margin:0" target="_blank" href="https://maps.google.com?saddr=Current+Location&daddr={{ event.lat }},{{ event.lng }}" class="button button-green button-small btn-block text-center">Come arrivare</a>
 			</div>
 			{% if not expired %}
 				<div id="part-result">
@@ -178,6 +170,10 @@
 
 	</div>
 </div>
+
+{% put contentBottom %}
+	{% partial 'proponi_evento' %}
+{% endput %}
 
 {% partial __SELF__ ~ "::participate" event = event %}
 
@@ -240,9 +236,7 @@
 				{
 					latitude: {{ event.lat }},
 					longitude: {{ event.lng }},
-				},
-				{
-					address: "{{ event.address.address }}",
+					//address: "{{ event.address.address }}",
 					html: "{{ event.address.address }}",
 					icon: {
 						image: "{{ 'assets/img/map-marker-big.png' | theme }}",

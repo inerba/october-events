@@ -71,7 +71,7 @@ tabs:
             tab: Copertina
         'address[address]':
             label: Address
-            type: addressfinder
+            type: geocode
             fieldMap:
                 latitude: lat
                 longitude: lng

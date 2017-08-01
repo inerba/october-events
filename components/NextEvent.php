@@ -50,8 +50,7 @@ class NextEvent extends ComponentBase
         $event = Event::where('start', '>=', date("Y-m-d H:i:s"))
                         ->orderBy('start')
                         ->first();
-        
-        $event->setUrl($this->property('eventPage'),$this->controller);
+        if($event) $event->setUrl($this->property('eventPage'),$this->controller);
 
         $this->event = $this->page['event'] = $event;
     }

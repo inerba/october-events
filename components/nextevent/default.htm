@@ -4,10 +4,17 @@
 {% else %}
 	{% set bg_slide = 'assets/img/banner-home.jpg' | theme %}
 {% endif %}
+	{% set bg_color = color_extract(bg_slide, 1) %}
+	{% if color_imgLight(bg_slide) %}
+		{% set bgcol = '#FFFFFF' %}
+	{% else %}
+		{% set bgcol = '#000000' %}
+		{% set dark_class = 'dark' %}
+	{% endif %}
 
-<section id="slider" class="sliders-parallax full-screen dark" style="overflow: hidden; background: url('{{ bg_slide }}') no-repeat center center;background-size: cover;">
+<section id="slider" class="sliders-parallax full-screen {{ dark_class }}" style="overflow: hidden; background: url('{{ bg_slide }}') no-repeat center center;background-size: cover;">
 
-	<div class="sliders-parallax-inner" style="height: 100%; background-color: rgba(0,0,0,0.3);">
+	<div class="sliders-parallax-inner" style="height: 100%; background-color: {{ color_hexToRgb(bgcol,0.5) }};">
 
 		<div class="container clearfix vertical-middle" style="z-index: 3;">
 
@@ -21,7 +28,7 @@
 
 			<div class="center topmargin-lg">
 
-				<a href="{{ event.url }}" class="button button-3d button-default button-rounded button-xlarge">Scopri di più</a>
+				<a href="{{ event.url }}" style="background-color: {{ bg_color }}" class="button button-3d button-default button-rounded button-xlarge">Scopri di più</a>
 		
 			</div>
 
@@ -54,6 +61,11 @@
 	});
 </script>
 {% endput %}
+	{% put contentBottom %}
+		{% partial 'proponi_evento' %}
+	{% endput %}
 {% else %}
-	nessun evento in programma
+	{% put contentTop %}
+		{% partial 'proponi_evento' %}
+	{% endput %}
 {% endif %}
