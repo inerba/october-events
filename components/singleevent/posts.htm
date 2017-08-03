@@ -4,7 +4,7 @@
 	<div id="post-list-footer">
 		{% for post in posts %}
 			{% set target = null %}
-			{% if post.extend.direct_link | length > 1 %}
+			{% if post.postextras.direct_link | length > 1 %}
 				{% set target = 'target="_blank"' %}
 			{% endif %}
 		<div class="spost clearfix">

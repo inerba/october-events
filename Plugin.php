@@ -11,7 +11,7 @@ class Plugin extends PluginBase
     /**
      * @var array Plugin dependencies
      */
-    public $require = ['RainLab.Blog','Inerba.Embedd'];
+    public $require = ['RainLab.Blog','Inerba.Embedd','Inerba.Geolocation'];
 
     public function registerComponents()
     {

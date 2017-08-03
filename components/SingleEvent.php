@@ -66,6 +66,7 @@ class SingleEvent extends ComponentBase
     {
         $event = Event::where('slug', $this->param('slug'))->first();
 
+
         // Aggiunge i link ai post
         $posts = $event->posts->each(function($post) {
             if(isset($post->extend['direct_link']) && !empty($post->extend['direct_link']) ){
@@ -74,8 +75,6 @@ class SingleEvent extends ComponentBase
                 $post->setUrl( $this->property('postPage'), $this->controller);
             }
         });
-
-        //dd($event->toArray());
         
         // Evento non trovato
         if(empty($event)) return \Response::make($this->controller->run('404'), 404);
